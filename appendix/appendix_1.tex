@@ -1,0 +1,272 @@
+% ******************************* Thesis Appendix A ****************************
+\chapter*{Appendix} 
+\section*{Include}
+\label{Firmware Include Files}
+\begin{multicols}{3}
+ADS131M08.h\par
+Adafruit-SleepyDog.h\par
+arduino-secrets.h\par
+croutine.h\par
+deprecated-definitions.h\par
+error-hooks.h\par
+event-groups.h\par
+FreeRTOS-SAMD21.h\par
+FreeRTOS.h\par
+FreeRTOSConfig.h\par
+list.h\par
+message-buffer.h\par
+mpu-prototypes.h\par
+mpu-wrappers.h\par
+portable.h\par
+portmacro.h\par
+projdefs.h\par
+queue.h\par
+runtimeStats-hooks.h\par
+SAMD21turboPWM.h\par
+semphr.h\par
+stack-macros.h\par
+stream-buffer.h\par
+task.h\par
+thingProperties.h\par
+timers.h\par
+\end{multicols}
+
+
+\section*{Source}
+\label{Firmware Source Files}
+\begin{multicols}{3}
+ADS131M08.cpp\par
+croutine.c\par
+error-hooks.cpp\par
+event-groups.c\par
+heap-4bis.c\par
+list.c\par
+port.c\par
+queue.c\par
+runTimeStats-hooks.c\par
+SAMD21turboPWM.cpp\par
+stream-buffer.c\par
+task.c\par
+timers.c\par
+\end{multicols}
+
+\section*{Main}
+\label{Firmware Main}
+\lstinputlisting[language=Octave]{main.cpp}
+\section*{Matlab WebAccess}
+\subsection*{Generating Authentication Token} \label{CREATING TOKEN}
+\begin{lstlisting}[style=Matlab-Pyglike]
+%:::::::::::::::CREATING TOKEN:::::::::::::::
+opts_1 = weboptions('ContentType', 'json', 'Timeout',10)
+url_token = 'https://api2.arduino.cc/iot/v1/clients/token';
+response = webwrite(url_token,...
+     'grant_type',  'client_credentials',...
+     'client_id',   '5XXp84lsK8ACGKbU2bnWoUXYLVlkcquE',...
+     'client_secret', '2WFU3ZALyHFg3yfWQpeqyKpfSzEMTXB7LnUZ6YynY9yygaAq8igICawa 4bdSDnvq',...
+     'audience',    'https://api2.arduino.cc/iot',...
+     opts_1);
+access_token = response.access_token
+\end{lstlisting}
+
+\subsection*{Reading Data from Cloud}
+\label{READING FROM CLOUD}
+\begin{lstlisting}[style=Matlab-Pyglike]
+%:::::::::::::::READING FROM CLOUD:::::::::::::::
+url = 'https://api2.arduino.cc/iot/v2/things/';
+Thing_Id = '25699f19-ee8a-4a0a-a7d3-028619992612';
+RMS_I1 = "e72bf60d-ffe4-490a-bca5-ed3ad6f8450c";
+RMS_I2 = "c091da24-c7a9-4368-ac73-5fa9bc590bac";
+RMS_I3 = "cb5c8aee-4d39-42b9-91dc-8110acf761eb";
+RMS_V1 = "f42c92af-7a1c-4423-941e-139fbe2691bb";
+RMS_V2 = "a04faef9-ad2b-4f63-b4dd-e817a381eb01";
+RMS_V3 = "6df1d034-e613-4695-81b8-7087d72f3c70";
+
+url_request1 = strcat(url,Thing_Id,"/properties/",RMS_I1);
+url_request2 = strcat(url,Thing_Id,"/properties/",RMS_I2);
+url_request3 = strcat(url,Thing_Id,"/properties/",RMS_I3);
+
+url_request4 = strcat(url,Thing_Id,"/properties/",RMS_V1);
+url_request5 = strcat(url,Thing_Id,"/properties/",RMS_V2);
+url_request6 = strcat(url,Thing_Id,"/properties/",RMS_V3);
+
+opts_2 = weboptions('MediaType', 'auto',...
+                     'HeaderFields', {'Authorization', ['Bearer ', access_token]});
+%fieldValue = 42;
+%for R = 1:20
+%https://api2.arduino.cc/iot/v2/things/25699f19-ee8a-4a0a-a7d3-028619992612/properties/f06b9506-f7c8-473a-af4c-8b4dd028d455/publish
+%url_request = "https://api2.arduino.cc/iot/v2/things/2332acc6-a929-4d1e-bfbc-00eb8518c2fb/properties/5695e3ea-5e49-4f2e-9804-48a500185f69";
+    Variable1 = webread(url_request1, opts_2)
+    Variable2 = webread(url_request2, opts_2)
+    Variable3 = webread(url_request3, opts_2)
+    Variable4 = webread(url_request4, opts_2)
+    Variable5 = webread(url_request5, opts_2)
+    Variable6 = webread(url_request6, opts_2)
+ 
+I1 = Variable1.last_value
+I2 = Variable2.last_value
+I3 = Variable3.last_value
+
+V1 = Variable4.last_value
+V2 = Variable5.last_value
+V3 = Variable6.last_value
+%Variable_Last_Value = uint8(tmp);
+%    pause(1);
+\end{lstlisting}
+
+\subsection*{Writting Data to the cloud}
+\label{WRITTING TO THE CLOUD}
+\begin{lstlisting}[style=Matlab-Pyglike]
+%:::::::::::::::WRITTING TO THE CLOUD:::::::::::::::
+url = "https://api2.arduino.cc/iot/v2";
+Device_Id = "/155e65c7-5fe5-4a9c-bec1-5dccff54b206";
+Thing_Id = "/25699f19-ee8a-4a0a-a7d3-028619992612";
+Variable_Id = "/f06b9506-f7c8-473a-af4c-8b4dd028d455";
+
+
+% Define the API endpoint and access token
+url_request = strcat(url,"/things", Thing_Id,"/properties", Variable_Id, "/publish");
+
+
+% Define the HTTP options
+Headers = weboptions('HeaderFields', {'Authorization', ['Bearer ' access_token]},...
+     'MediaType', 'application/json', ...
+ 'RequestMethod', 'put'); 
+
+Body = struct('type', 'STRING',...
+                'permission', 'READ_WRITE',...
+                 'update_strategy','ON_CHANGE', ...
+                 'value', 'Ahsan',...
+                 'device_id', '155e65c7-5fe5-4a9c-bec1-5dccff54b206');
+
+
+% Send the HTTP request
+webwrite(url_request, Headers, Body)
+\end{lstlisting}
+\subsection*{Reading Historic Data}
+\label{Historic Data}
+\begin{lstlisting}[style=Matlab-Pyglike]
+url = 'https://api2.arduino.cc/iot/v2/things/';
+Thing_Id = '25699f19-ee8a-4a0a-a7d3-028619992612';
+RMS_I1 = "e72bf60d-ffe4-490a-bca5-ed3ad6f8450c";
+RMS_I2 = "c091da24-c7a9-4368-ac73-5fa9bc590bac";
+RMS_I3 = "cb5c8aee-4d39-42b9-91dc-8110acf761eb";
+RMS_V1 = "f42c92af-7a1c-4423-941e-139fbe2691bb";
+RMS_V2 = "a04faef9-ad2b-4f63-b4dd-e817a381eb01";
+RMS_V3 = "6df1d034-e613-4695-81b8-7087d72f3c70";
+
+url_Var1 = strcat(url,Thing_Id,"/properties/",RMS_I1);
+url_Var2 = strcat(url,Thing_Id,"/properties/",RMS_I2);
+url_Var3 = strcat(url,Thing_Id,"/properties/",RMS_I3);
+
+url_Var4 = strcat(url,Thing_Id,"/properties/",RMS_V1);
+url_Var5 = strcat(url,Thing_Id,"/properties/",RMS_V2);
+url_Var6 = strcat(url,Thing_Id,"/properties/",RMS_V3);
+% Set the number of records you want to retrieve (optional)
+Timeframe = "/timeseries?desc=1&from=2023-01-01T00:00:00Z&interval=1&to=2023-07-28T00:00:00Z"
+
+url_request1 = strcat(url_Var1,Timeframe);
+url_request2 = strcat(url_Var2,Timeframe);
+url_request3 = strcat(url_Var3,Timeframe);
+url_request4 = strcat(url_Var4,Timeframe);
+url_request5 = strcat(url_Var5,Timeframe);
+url_request6 = strcat(url_Var6,Timeframe);
+
+opts_2 = weboptions('MediaType', 'auto',...
+                     'HeaderFields', {'Authorization', ['Bearer ', access_token]});
+%fieldValue = 42;
+%for R = 1:20
+%https://api2.arduino.cc/iot/v2/things/25699f19-ee8a-4a0a-a7d3-028619992612/properties/f06b9506-f7c8-473a-af4c-8b4dd028d455/publish
+%url_request = "https://api2.arduino.cc/iot/v2/things/2332acc6-a929-4d1e-bfbc-00eb8518c2fb/properties/5695e3ea-5e49-4f2e-9804-48a500185f69";
+    I1 = webread(url_request1,  opts_2)
+    I2 = webread(url_request2, opts_2)
+    I3 = webread(url_request3, opts_2)
+    V1 = webread(url_request4, opts_2)
+    V2 = webread(url_request5, opts_2)
+    V3 = webread(url_request6, opts_2)
+
+%Variable_Last_Value = uint8(tmp);
+%    pause(1);
+
+
+
+%:::::::::::::::READING and WRITTING TO THE CLOUD:::::::::::::::
+url = 'https://api2.arduino.cc/iot/v2/things/';
+Thing_Id = "1509add6-7574-4f78-824f-15fd26ba62f3";
+
+RMS_I1 = "e72bf60d-ffe4-490a-bca5-ed3ad6f8450c";
+RMS_I2 = "c091da24-c7a9-4368-ac73-5fa9bc590bac";
+RMS_I3 = "cb5c8aee-4d39-42b9-91dc-8110acf761eb";
+RMS_V1 = "f42c92af-7a1c-4423-941e-139fbe2691bb";
+RMS_V2 = "a04faef9-ad2b-4f63-b4dd-e817a381eb01";
+RMS_V3 = "6df1d034-e613-4695-81b8-7087d72f3c70";
+
+url_request1 = strcat(url,Thing_Id,"/properties/",RMS_I1);
+url_request2 = strcat(url,Thing_Id,"/properties/",RMS_I2);
+url_request3 = strcat(url,Thing_Id,"/properties/",RMS_I3);
+
+url_request4 = strcat(url,Thing_Id,"/properties/",RMS_V1);
+url_request5 = strcat(url,Thing_Id,"/properties/",RMS_V2);
+url_request6 = strcat(url,Thing_Id,"/properties/",RMS_V3);
+
+% Set the number of records you want to retrieve (optional)
+
+opts_2 = weboptions('MediaType', 'auto',...
+                     'HeaderFields', {'Authorization', ['Bearer ', access_token]});
+%fieldValue = 42;
+%for R = 1:20
+%https://api2.arduino.cc/iot/v2/things/25699f19-ee8a-4a0a-a7d3-028619992612/properties/f06b9506-f7c8-473a-af4c-8b4dd028d455/publish
+%url_request = "https://api2.arduino.cc/iot/v2/things/2332acc6-a929-4d1e-bfbc-00eb8518c2fb/properties/5695e3ea-5e49-4f2e-9804-48a500185f69";
+    Variable1 = webread(url_request1,  opts_2);
+    Variable2 = webread(url_request2, opts_2);
+    Variable3 = webread(url_request3, opts_2);
+    Variable4 = webread(url_request4, opts_2);
+    Variable5 = webread(url_request5, opts_2);
+    Variable6 = webread(url_request6, opts_2);
+ 
+I1 = Variable1.last_value
+I2 = Variable2.last_value
+I3 = Variable3.last_value
+V1 = Variable4.last_value
+V2 = Variable5.last_value
+V3 = Variable6.last_value
+
+%post processing
+I_vec = [I1 I2 I3]
+I_unbalance = max(I_vec)/mean(I_vec)*100;  %  In percent
+
+V_vec = [V1 V2 V3]
+V_unbalance = max(V_vec)/mean(V_vec)*100;  %  In percent
+
+%:::::::::::::::WRITTING TO THE CLOUD:::::::::::::::
+url = "https://api2.arduino.cc/iot/v2";
+Thing_Id = "1509add6-7574-4f78-824f-15fd26ba62f3";
+RMS_I_UNBALLANCE = "54473414-49cc-4ae8-8056-089bcca0fe2a";
+RMS_V_UNBALLANCE = "2b2408d6-7118-4a2e-b874-8636d1a70dba";
+
+% Define the API endpoint and access token
+url_PUT_I_UNBALANCED = strcat(url,"/things/", Thing_Id,"/properties/", RMS_I_UNBALLANCE, "/publish");
+url_PUT_V_UNBALANCED = strcat(url,"/things/", Thing_Id,"/properties/", RMS_V_UNBALLANCE, "/publish");
+
+
+% Define the HTTP options
+Headers = weboptions('HeaderFields', {'Authorization', ['Bearer ' access_token]},...
+     'MediaType', 'application/json', ...
+ 'RequestMethod', 'put'); 
+%Put= I_unbalance
+Body_I = struct('type', 'FLOAT',...
+                'permission', 'READ_WRITE',...
+                 'update_strategy','ON_CHANGE', ...
+                 'value', V_unbalance);
+%Put= V_unbalance
+Body_V = struct('type', 'FLOAT',...
+                'permission', 'READ_WRITE',...
+                 'update_strategy','ON_CHANGE', ...
+                 'value', I_unbalance);
+
+% Send the HTTP request
+webwrite(url_PUT_I_UNBALANCED, Headers, Body_I)
+webwrite(url_PUT_V_UNBALANCED, Headers, Body_V)
+\end{lstlisting}
+
+
+

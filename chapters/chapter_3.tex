@@ -1,0 +1,69 @@
+%\chapter{Literature Review}
+Over the past few decades, significant advancements have been made in DAS technology. The transition from analog to digital data acquisition has allowed for improved accuracy, reliability, and ease of data manipulation. Additionally, the integration of microprocessors and programmable logic devices has led to the development of smart and autonomous data acquisition solutions. Moreover, wireless and remote sensing capabilities have expanded the scope of data collection to remote or hazardous environments, enhancing the flexibility and accessibility of DAS. In this chapter we will discuss some state of arts what we have studied during our research work.
+\vspace{0.5cm}\par
+Sarra Houidi et al \textbf{\cite{Load_Monitoring}} introduces a study about an economical current and voltage measurement system, employing an Arduino MKR Zero microcontroller, aimed at facilitating Non-Intrusive Load Monitoring for Home Electrical Appliances. The hardware architecture is thoughtfully outlined, encompassing current and voltage conditioning circuits, while the software aspect is comprehensively detailed. The microcontroller's interruption routine ensures consistent data acquisition, complemented by a background task for efficient data storage using a micro SD card. The authors also envision future enhancements, including potential networking capabilities for consumer accessibility via web interfaces, along with the ability to extend the system's applicability to measuring currents and voltages within domestic three-phase networks. We have choosen Arduino MKR 1500 for our project, but we used ADS131M08 delta-sigma ADC where they utilised some operational amplifiers to serve the purpose. They have stored their data into a micro SD card, where we stored it in Arduino IoT cloud.
+
+\vspace{0.5cm}
+Another research has been conducted by Hendrik et al \textbf{\cite{MADV-DAQ}} in the past for structural health monitoring of onshore wind turbines and wind turbine foundations. It is an affordable, multi-channel, Arduino-based differential voltage data collection device appropriate for battery-operated measurements of several Wheatstone bridge-based (strain) sensors from distant locations. In this system The Arduino microcontroller serving as the main data acquisition device, with an additional Raspberry Pi transferring the data to two other data hubs for long-term preservation and analysis. Our system was also designed in Arduino platform, but we didn't developed our local data storage server. Because we were envisioned to design something low cost and affordable. 
+\vspace{0.5cm}
+
+In a project of Sadia et al, \textbf{\cite{Portable_Sensing}} a multimetric, low-power-consumption sensor system was developed for real-time data acquisition. The finite element analysis aims to determine the strain gauge positions at which the strain is zero during the lifting stage. The general strategy of precast monitoring is validated by conducting an experiment in which the delivery of a 12-m-long PCS is monitored using the PDMS. In addition, a safety evaluation strategy was developed to assess the maximum strain on the structure by using offset-adjusted strain measurements. Their system was based on Teensy 4.1 micro-controller and ADS131M08 ADC, with an OpAmp and 3 axis accelerometer. For data storage they have utilised an SD card. On the other hand, our system was based on Arduino and real time cloud connected.
+
+\vspace{0.5cm}
+Yuguang Fu et al \textbf{\cite{Event_Monitor}}, developed wireless sensors that conserve battery power through duty-cycling. However, this approach may miss sudden events while in power-saving sleep mode. To enable continuous monitoring, they proposed a sustainable power solution emulating wired systems. By using a trigger node or system, the sensors can be continuously monitored, ensuring timely event notification to the power-saving nodes. The proposed wireless sensor system (WSS) demonstrated low power consumption, drawing only 365 A without sudden events, compared to 170 mA for the original sensor platform. This extended the lifetime of always-on monitoring when using a rechargeable lithium polymer battery. In field tests, the WSS was evaluated on a steel railroad bridge and performed well for earthquake monitoring and sudden event detection. Additionally, the sensors offered high sampling rates and sensing resolution, providing high-quality data for rapid condition assessment of civil infrastructure during sudden events. We took the idea for adding rechargeable lithium polymer battery in our system after this study. Though we have selected 24 bit ADC which provide better sampling rate than theirs 12 bit ADC.
+
+\vspace{0.5cm}
+Some researchers in \textbf{\cite{WireLs_SmartSensor}}demonstrated the potential of WSS platforms for high-fidelity Structural Health Monitoring (SHM) applications. They compared several WSS platforms, including Martlet AX-3D, Waspmote v15, and G. Link-200, based on critical requirements from standards and full-scale deployments. Their study found that the AX-3D had milliseconds time synchronization errors, which could lead to false indications of structural damage during condition assessment. To support large-scale, high-fidelity sensing, the Xnodes underwent hardware improvements, including high-speed microprocessors, high-resolution sensors, powerful wireless communication, and efficient power management. Extensive lab and field tests validated the Xnodes performance in data acquisition, wireless communication reliability, and power management efficiency. They have defined three different tasks in FreeRTOS. After studying these research work we got the motivation to implement an OS in owr system, where we have defined four different tasks will be described later.
+
+\vspace{0.5cm}
+In the research of Krzysztof Sieczkowski et al \textbf{\cite{RealTimeAcq_Matlab}}, build a real-time data acquisition method utilizing Matlab software for external devices. It introduces a communication protocol and transfer framework ensuring reliable interaction between the master system and external measuring sensors. The study encompasses a detailed description of a measurement station implementing this protocol, alongside a comprehensive algorithm for test programs.Three performance tests were conducted, focusing on key aspects: (1) average transmission time, (2) effective throughput of complete data exchange cycles, (3) Matlab's processing time for transmission, and (4) stability of the program timer for periodic data transmission calls. The experimentation incorporated three widely used communication interfaces (UART, Bluetooth, WiFi) and diverse packet sizes.\par
+\vspace{0.5cm}
+Some scholars in \textbf{\cite{OpenAcq_Matlab}} provides insights into seamless real-time data acquisition, offering a systematic assessment of performance across various communication interfaces and packet sizes. This study introduces an innovative and cost-effective data acquisition system that leverages open-source hardware in conjunction with Matlab/Simulink. This system offers the unique capability to acquire a diverse range of data types and sample rates, utilizing both USB and serial communication methods. The hardware foundation is established with Arch Max, featuring an ARM Cortex-M4 core. The software architecture includes microcontroller firmware presented as a user-friendly header file, streamlining data acquisition via readily accessible functions.
+\vspace{0.5cm}
+
+Anshuman Panda et al \textbf{\cite{Matlab_DAQ}} introduces a software platform that employs Matlab and Simulink for economical data acquisition and control tasks through low-cost microcontrollers. Designed for applications requiring graphical user interfaces (GUI) and advanced computation without demanding hardware specifications, the framework is exemplified through DC motor position control using a Basic Stamp 2 (BS2) microcontroller alongside the Matlab data acquisition and control toolbox. We have also designed an embedded algorithm in our system to analyse the acquired data.
+\vspace{0.5cm}
+
+The research paper of J. Krizan et al \textbf{\cite{Automatic_code}}, investigates the utilization of automatically generated C-code from the Matlab and Simulink environment in critical applications aligned with DO-178C and DO-331 standards. Employing Model Based Design, the study showcases how algorithms initially tested as models can be seamlessly translated into C-code, reducing potential errors associated with manual coding. The focus lies in examining the practicality of this model-based approach for critical avionics applications, aiming to meet MISRA-C software standards. This study helps us to implement C code from our simulink embedded algorithm.
+
+
+
+\nomenclature{$PDMS$}{Precast Delivery Monitoring
+System}
+\nomenclature{$WSS$}{Wireless Sensor System}
+\nomenclature{$SHM$}{Structural Health Monitoring }
+\nomenclature{$UART$}{Universal Asynchronous Receiver Transmitter}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

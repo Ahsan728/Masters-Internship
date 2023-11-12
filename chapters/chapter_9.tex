@@ -1,0 +1,73 @@
+%\section{Conclusion and Future Works}
+\section{Cost Analysis}
+A simplified bill has been shown in Table \ref{tab:Cost Sheet}, where the total implementation cost of this acquisition board is calculated 137 euros only, which is really affordable.
+\begin{table}[htbp]
+  \centering
+  \caption{Bill of Acquisition System Board }
+  \label{tab:Cost Sheet}
+  {
+  \begin{tabular}{|c|c|c|}
+    \hline
+    \textbf{Particulars} & \textbf{Quantity} & \textbf{Price} \\
+    \hline
+     Arduino MKR 1500 & 1 & 60\texteuro \\
+    \hline
+    ADS131M08 ADC & 2 & 20\texteuro \\
+    \hline
+    Voltage Regulator & 5 & 5\texteuro \\
+    \hline
+    SMD Resistors & Lot & 5\texteuro \\
+    \hline
+    SMD Capacitors & Lot & 5\texteuro \\
+    \hline
+    SMD Diodes & 20 & 2\texteuro \\
+    \hline
+    M/F Connectors & Multiple & 5\texteuro \\
+    \hline
+    USB Connectors & 5 & 5\texteuro \\
+    \hline
+    Antenna Connector & 5 & 10\texteuro \\
+    \hline
+    PCB Board & 5 & 20\texteuro \\
+    \hline
+    \textbf{Total} & - & \textbf{137\texteuro} \\
+    \hline
+  \end{tabular}
+  }
+\end{table}
+
+\section{Challenges Overcome} 
+Throughout the implementation of this acquisition system, we encountered various challenges and adeptly surmounted each one. Designing precise signal conditioning circuits for ensuring accurate and noise-free signal acquisition posed a significant hurdle. Our efforts involved addressing common issues such as noise, interference, calibration, and offset. A particularly intricate task was generating a suitable clock for the ADC. Through resourceful adaptation of a \textbf{TurboPWM} library for SAMD21, we effectively overcame this challenge. Subsequent lab testing revealed a satisfactory \textbf{4KSPS} sampling rate, exceeding our expectations. Notably, the sampling duration for all eight channels amounted to a commendable \textbf{167ms}. Initially, we faced complications when attempting to execute the Simulink-generated embedded C files within our IDE. To resolve this matter, we successfully wrapped their declarations with \textbf{extern ‘C’ {}}. 
+
+The Arduino MKR 1500 is equipped with 32KB of SRAM and 256KB of Flash RAM. Our project encountered challenges related to this 32KB memory limitation as we managed multiple threads and tasks within an RTOS framework. To address the memory constraint, we made the strategic decision to transmit selected sample packets to the cloud. While configuring NB-IoT proved relatively smooth, integrating it into our RTOS posed difficulties due to memory restrictions. Integrating the Arduino Cloud with MATLAB script required dedicated effort, particularly when writing data. Our perseverance paid off as we delved into the SDK support section of the Arduino Cloud, which offered valuable insights and solutions. However, a significant hurdle emerged when we sought to retrieve historical data from the Arduino Cloud. Initially, the platform lacked a direct option for accessing historical data. To overcome this, we embarked on an extensive study of various examples. Our endeavor bore fruit as we devised a MATLAB script that fulfilled this purpose, as previously discussed.
+
+\section{Impact of this project for company} 
+This initiative might have a big, encompassing influence on Schneider Electric. Numerous advantages and enhancements to Schneider's operations, goods, and services can result from such a system. Here are some potential impacts:\par
+\vspace{0.5cm}
+\textbf{Enhanced Monitoring and Control: }Schneider can monitor and manage numerous systems, pieces of equipment, and processes in real-time thanks to a powerful data collecting system. Better insights, quicker decision-making, and increased operational effectiveness result from this.
+\par
+
+\textbf{Predictive Maintenance:} Schneider may put into practice predictive maintenance techniques by gathering and processing data from essential equipment. As a result, downtime is decreased, equipment longevity is increased, and maintenance schedules are improved.
+\par
+
+\textbf{Data-Driven Insights:} This data collection system offers insightful information on equipment performance, operating trends, and energy usage patterns. With the aid of these insights, Schneider is able to provide its clients with data-driven solutions that assist them maximize their use of energy and operational effectiveness.
+\par
+
+\textbf{Remote Management:} Schneiders Engineers are able to remotely administer and monitor their systems installed at client locations. This makes it possible to debug, update, and customize more quickly without having to be physically there.
+\par
+
+\textbf{Product Development:} Schneider's goods and solutions may be designed and improved with the use of the collected data. It allows for iterative development based on actual usage data, producing more dependable and efficient services.
+\par
+
+\textbf{Energy Efficiency Solutions:} Schneider can create and offer energy management solutions that are specifically suited to the needs of its clients using the data it has collected. Reduced energy use, economic savings, and advantages for sustainability can result from this.
+\par
+
+\textbf{Business Growth:} A dependable data collecting system can improve Schneider's standing as a forward-thinking, technologically focused business. Through increased consumer attraction, business expansion, and the creation of new market opportunities.
+\par
+
+\textbf{Risk Management:} Monitoring essential devices and systems enables the early detection of possible difficulties before they grow into more serious concerns. The operational risks and possible interruptions are decreased by this proactive approach.
+\par
+
+\section{Future Works} 
+The pursuit of knowledge knows no limitations, and we are ready to explore unexplored areas even more. With every obstacle we overcome, we find fresh opportunities just waiting to be explored. Future initiatives for our project have a lot of potential, as we can see. Potential directions include enhancing performance and adjusting the system to changing user requirements and market demands. The investigation of more sophisticated signal processing methods, such as filtering and noise reduction, promises to improve the quality of gathered data and provide insightful information as we move forward. Our agenda includes efficient memory management and needs that are specific to each user. Additionally, we see machine learning algorithms being integrated, allowing automation of anomaly detection, predictive maintenance, and pattern identification based on collected data.Furthermore, putting in place procedures for remote firmware updates guarantees that our system keeps up with the newest features, advancements, and security upgrades.
+
